@@ -1,0 +1,18 @@
+service: github-scraper
+
+plugins:
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  upload:
+    handler: src/handlers/upload.upload
+    events:
+      - http:
+          path: /upload
+          method: post
+          cors: true
+          integration: lambda

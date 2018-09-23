@@ -1,0 +1,27 @@
+{
+  "name": "github_scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/augusto-queirantes/github-scraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/augusto-queirantes/github-scraper/issues"
+  },
+  "homepage": "https://github.com/augusto-queirantes/github-scraper#readme",
+  "dependencies": {
+    "@octokit/rest": "^15.11.1",
+    "aws-sdk": "^2.315.0",
+    "node-fetch": "^2.2.0",
+    "path": "^0.12.7",
+    "serverless-dotenv-plugin": "^1.2.0"
+  }
+}
