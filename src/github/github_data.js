@@ -21,7 +21,7 @@ class githubData {
       merged_at: pull_request.merged_at,
       reviewers: pull_request.requested_reviewers,
       labels: pull_request.labels,
-      changed_files: this.parseChangedFiles(changedFilesData)
+      changed_files: this.parseChangedFiles(changedFilesData),
     };
   }
 
