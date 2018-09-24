@@ -21,6 +21,7 @@
   "dependencies": {
     "@octokit/rest": "^15.11.1",
     "aws-sdk": "^2.315.0",
+    "lambda-log": "^2.0.0",
     "node-fetch": "^2.2.0",
     "path": "^0.12.7",
     "serverless-dotenv-plugin": "^1.2.0"

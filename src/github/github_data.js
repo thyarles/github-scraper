@@ -1,4 +1,5 @@
 const octokit = require('@octokit/rest')();
+const log = require('lambda-log');
 const path = require('path');
 
 const githubAuthenticationFile = require(path.resolve( __dirname, '../github/github_authentication.js'));
@@ -9,9 +10,12 @@ githubAuthentication.authenticate(octokit);
 
 class githubData {
   getPullRequestParsedData(pullRequestData, changedFilesData) {
+    log.info(`pullRequestData: ${pullRequestData}`);
+    log.info(`changedFilesData: ${changedFilesData}`);
+
     const { body: { pull_request, repository } } = pullRequestData;
 
-    return  {
+    const parsedPullRequestData = {
       owner: pull_request.head.repo.owner.login,
       repo: repository.name,
       number: pull_request.number,
@@ -23,6 +27,8 @@ class githubData {
       labels: pull_request.labels,
       changed_files: this.parseChangedFiles(changedFilesData)
     };
+
+    log.info(`parsedPullRequestData: ${parsedPullRequestData}`);
   }
 
   parseChangedFiles(fileResult) {
