@@ -17,7 +17,7 @@ module.exports.upload = async (event) => {
   let pullRequestFilesData = await githubDataParser.getPullRequestFiles(owner, repo, number);
   let githubJson = githubDataParser.getPullRequestParsedData(event, pullRequestFilesData);
 
-  if (githubDataParser.isMergePullRequest) {
+  if (githubDataParser.isMergePullReques(action, merged)) {
     let request = await awsData.s3Upload(githubJson, number, repo);
 
     if (request) {
