@@ -37,9 +37,9 @@ class githubData {
 
   async getPullRequestFiles(owner, repo, number) {
     return octokit.pullRequests.getFiles({
-      owner: owner,
-      repo: repo,
-      number: number
+      owner,
+      repo,
+      number
     });
   }
 }
