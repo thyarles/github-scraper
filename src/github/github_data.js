@@ -35,6 +35,14 @@ class githubData {
     return filesChanged;
   }
 
+  isMergePullRequest(action, merged) {
+    if (action === 'closed' && merged === true) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
   async getPullRequestFiles(owner, repo, number) {
     return octokit.pullRequests.getFiles({
       owner,
