@@ -24,6 +24,10 @@ module.exports.upload = async (event) => {
       return {
         request
       };
+    } else {
+      return {
+        statusCode: 400
+      };
     }
   }
 };
