@@ -26,13 +26,9 @@ class githubData {
   }
 
   parseChangedFiles(fileResult) {
-    let filesChanged = [];
-
-    for (let jsonData of fileResult.data) {
-      filesChanged.push(jsonData['filename']);
-    }
-
-    return filesChanged;
+    return fileResult.map((item) => {
+      return item.filename;
+    });
   }
 
   isMergePullRequest(action, merged) {
