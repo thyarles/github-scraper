@@ -20,21 +20,21 @@ class awsData {
     return new Promise(function(resolve, reject){
       s3.upload(params, (error, data) => {
         if (data) {
-          resolve(data)
+          resolve(data);
         } else if (error) {
-          reject(error)
+          reject(error);
         }
       });
     });
   }
 
   getBucketName() {
-    return 'github-scraper'
+    return 'github-scraper';
   }
 
   getFilePath(fileName, projectName) {
-    return `pull_requests/${fileName} - ${projectName}.json`
+    return `pull_requests/${fileName} - ${projectName}.json`;
   }
 }
 
-module.exports = awsData
+module.exports = awsData;
