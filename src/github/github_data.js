@@ -1,7 +1,8 @@
-const octokit = require('@octokit/rest')()
+const octokit = require('@octokit/rest')();
+const log = require('lambda-log');
 const path = require('path');
 
-const githubAuthenticationFile = require(path.resolve( __dirname, "../github/github_authentication.js"));
+const githubAuthenticationFile = require(path.resolve( __dirname, '../github/github_authentication.js'));
 
 const githubAuthentication = new githubAuthenticationFile();
 
@@ -9,17 +10,15 @@ githubAuthentication.authenticate(octokit);
 
 class githubData {
   getPullRequestParsedData(pullRequestData, changedFilesData) {
-    console.log(`pull_request_data: ${pullRequestData}`);
-    console.log(`changedFilesData: ${changedFilesData}`);
+    log.info(`pullRequestData: ${pullRequestData}`);
+    log.info(`changedFilesData: ${changedFilesData}`);
 
     const { body: { pull_request, repository } } = pullRequestData;
-    console.log(`pull_request: ${pull_request}`);
-    console.log(`repository: ${repository}`);
 
-    let json =  {
+    const parsedPullRequestData = {
       owner: pull_request.head.repo.owner.login,
       repo: repository.name,
-      number: number,
+      number: pull_request.number,
       title: pull_request.title,
       user: pull_request.user.login,
       created_at: pull_request.created_at,
@@ -28,28 +27,29 @@ class githubData {
       labels: pull_request.labels,
       changed_files: this.parseChangedFiles(changedFilesData)
     };
-    console.log(`json: ${json}`);
 
-    return json;
+    log.info(`parsedPullRequestData: ${parsedPullRequestData}`);
   }
 
   parseChangedFiles(fileResult) {
-    let filesChanged = [];
+    return fileResult.map((item) => {
+      return item.filename;
+    });
+  }
 
-    for (let jsonData of fileResult.data) {
-      console.log(`jsonData: ${jsonData}`);
-      filesChanged.push(jsonData['filename']);
+  isMergePullRequest(action, merged) {
+    if (action === 'closed' && merged === true) {
+      return true;
+    } else {
+      return false;
     }
-
-    console.log(`filesChanged: ${filesChanged}`)
-    return filesChanged;
   }
 
   async getPullRequestFiles(owner, repo, number) {
     return octokit.pullRequests.getFiles({
-      owner: owner,
-      repo: repo,
-      number: number
+      owner,
+      repo,
+      number
     });
   }
 }

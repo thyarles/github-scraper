@@ -1,12 +1,15 @@
 const path = require('path');
+const log = require('lambda-log');
 
 const githubFile = require(path.resolve(__dirname, '../github/github_data.js'));
 const awsFile = require(path.resolve(__dirname, '../aws/aws_data.js'));
 
 const githubDataParser = new githubFile();
-const awsData = new awsFile();
+const awsData = new awsFile() ;
 
-module.exports.upload = async (event, context) => {
+module.exports.upload = async (event) => {
+  log.info(`Processo iniciado, event: ${event}`);
+
   const { body: { pull_request, repository } } = event;
 
   let action = event.body.action;
@@ -14,34 +17,32 @@ module.exports.upload = async (event, context) => {
   let owner = pull_request.head.repo.owner.login;
   let repo = repository.name;
   let number = pull_request.number;
-
-  console.log(`action: ${action}`);
-  console.log(`merged: ${merged}`);
-  console.log(`owner: ${owner}`);
-  console.log(`repo: ${repo}`);
-  console.log(`number: ${number}`);
-
   let pullRequestFilesData = await githubDataParser.getPullRequestFiles(owner, repo, number);
   let githubJson = githubDataParser.getPullRequestParsedData(event, pullRequestFilesData);
-  console.log(`githubJson: ${githubJson}`);
-  console.log(`pullRequestFilesData: ${pullRequestFilesData}`);
 
-  if (action === 'closed' && merged === true) {
-    let request = await awsData.s3Upload(githubJson, number, repo)
-    console.log(`request: ${request}`);
+  log.info(`action: ${action}`);
+  log.info(`merged: ${merged}`);
+  log.info(`owner: ${owner}`);
+  log.info(`repo: ${repo}`);
+  log.info(`number: ${number}`);
+  log.info(`pullRequestFilesData: ${pullRequestFilesData}`);
+  log.info(`githubJson: ${githubJson}`);
+
+  if (githubDataParser.isMergePullReques(action, merged)) {
+    let request = await awsData.s3Upload(githubJson, number, repo);
 
     if (request) {
-      console.log('arquivo gravado');
+      log.info('Arquivo gravado');
 
       return {
-        request: request
+        request
       };
     } else {
-      console.log('arquivo não gravado');
+      log.info('Arquivo não gravado');
 
       return {
-        error: error
+        statusCode: 400
       };
     }
   }
-}
+};
