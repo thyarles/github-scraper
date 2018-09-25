@@ -5,30 +5,28 @@ const githubFile = require(path.resolve(__dirname, '../github/github_data.js'));
 const awsFile = require(path.resolve(__dirname, '../aws/aws_data.js'));
 
 const githubDataParser = new githubFile();
-const awsData = new awsFile() ;
+const awsData = new awsFile();
 
 module.exports.upload = async (event) => {
-  log.info(`Processo iniciado, event: ${event}`);
+  let res = JSON.parse(event.body.payload);
 
-  const { body: { pull_request, repository } } = event;
-
-  let action = event.body.action;
-  let merged = pull_request.merged;
-  let owner = pull_request.head.repo.owner.login;
-  let repo = repository.name;
-  let number = pull_request.number;
+  let action = res.action;
+  let merged = res.pull_request.merged;
+  let owner = res.pull_request.head.repo.owner.login;
+  let repo = res.repository.name;
+  let number = res.number;
   let pullRequestFilesData = await githubDataParser.getPullRequestFiles(owner, repo, number);
-  let githubJson = githubDataParser.getPullRequestParsedData(event, pullRequestFilesData);
+  let githubJson = await githubDataParser.getPullRequestParsedData(res, pullRequestFilesData);
 
   log.info(`action: ${action}`);
   log.info(`merged: ${merged}`);
   log.info(`owner: ${owner}`);
   log.info(`repo: ${repo}`);
   log.info(`number: ${number}`);
-  log.info(`pullRequestFilesData: ${pullRequestFilesData}`);
-  log.info(`githubJson: ${githubJson}`);
+  log.info(`pullRequestFilesData: ${JSON.stringify(pullRequestFilesData)}`);
+  log.info(`githubJson: ${JSON.stringify(githubJson)}`);
 
-  if (githubDataParser.isMergePullReques(action, merged)) {
+  if (action === 'closed' && merged === true) {
     let request = await awsData.s3Upload(githubJson, number, repo);
 
     if (request) {
