@@ -6,6 +6,7 @@ const githubAuthenticationFile = require(path.resolve( __dirname, '../github/git
 class githubData {
   constructor() {
     const githubAuthentication = new githubAuthenticationFile();
+    
     githubAuthentication.authenticate(octokit);
   }
 

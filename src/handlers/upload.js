@@ -22,7 +22,7 @@ module.exports.upload = async (event) => {
 
     if (request) {
       return {
-        request
+        statusCode: 200
       };
     } else {
       return {
