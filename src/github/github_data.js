@@ -1,15 +1,4 @@
-const octokit = require('@octokit/rest')();
-const path = require('path');
-
-const githubAuthenticationFile = require(path.resolve( __dirname, '../github/github_authentication.js'));
-
 class githubData {
-  constructor() {
-    const githubAuthentication = new githubAuthenticationFile();
-    
-    githubAuthentication.authenticate(octokit);
-  }
-
   getPullRequestParsedData(pullRequestData, changedFilesData) {
     return {
       owner: pullRequestData.pull_request.head.repo.owner.login,
@@ -27,14 +16,6 @@ class githubData {
 
   parseChangedFiles(fileResult) {
     return fileResult.data.map(changedFile => changedFile.filename);
-  }
-
-  async getPullRequestFiles(owner, repo, number) {
-    return octokit.pullRequests.getFiles({
-      owner,
-      repo,
-      number
-    });
   }
 }
 

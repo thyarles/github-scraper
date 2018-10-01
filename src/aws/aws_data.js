@@ -1,17 +1,5 @@
-const AWS = require('aws-sdk');
-const path = require('path');
-
-const awsAuthenticationFile = require(path.resolve( __dirname, './aws_authentication.js'));
-
 class awsData {
-  constructor() {
-    const awsAuthentication = new awsAuthenticationFile();
-    const s3 = new AWS.S3();
-    
-    awsAuthentication.authenticate(AWS);
-  }
-
-  s3Upload(data, fileName, projectName) {
+  s3Upload(s3, data, fileName, projectName) {
     let params = {
       Bucket: this.getBucketName(),
       Body : JSON.stringify(data),
