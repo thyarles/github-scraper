@@ -6,7 +6,6 @@ plugins:
 package:
   exclude:
     .git/**
-    .serverless/**
     spec/**
     .eslintrc.json
     .gitignore
