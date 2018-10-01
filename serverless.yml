@@ -2,7 +2,6 @@ service: github-scraper
 
 plugins:
   - serverless-dotenv-plugin
-  - serverless-jest-plugin
 
 provider:
   name: aws
