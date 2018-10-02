@@ -1,4 +1,4 @@
-class githubData {
+class GithubDataParser {
   getPullRequestParsedData(pullRequestData, changedFilesData) {
     return {
       owner: pullRequestData.pull_request.head.repo.owner.login,
@@ -14,9 +14,13 @@ class githubData {
     };
   }
 
+  isMerge(action, merged) {
+    return action === 'closed' && merged === true;
+  }
+
   parseChangedFiles(fileResult) {
     return fileResult.data.map(changedFile => changedFile.filename);
   }
 }
 
-module.exports = githubData;
+module.exports = GithubDataParser;

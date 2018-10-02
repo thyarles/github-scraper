@@ -7,9 +7,9 @@ const githubPullRequestFiles = fs.readFileSync(path.resolve(__dirname, '../__moc
 const githubPullRequestJson = JSON.parse(githubPullRequest);
 const githubPullRequestFilesJson = JSON.parse(githubPullRequestFiles);
 
-const githubDataClass = require(path.resolve(__dirname, '../../src/github/github_data'));
+const githubDataParserFile = require(path.resolve(__dirname, '../../src/github/github-data-parser.js'));
 
-const githubData = new githubDataClass();
+const GithubDataParser = new githubDataParserFile();
 
 test('Verify if the github files are correctly treated', () => {
   let expectedJson = {
@@ -34,6 +34,6 @@ test('Verify if the github files are correctly treated', () => {
     ]
   };
 
-  expect(githubData).toBeDefined();
-  expect(githubData.getPullRequestParsedData(githubPullRequestJson, githubPullRequestFilesJson)).toEqual(expectedJson);
+  expect(GithubDataParser).toBeDefined();
+  expect(GithubDataParser.getPullRequestParsedData(githubPullRequestJson, githubPullRequestFilesJson)).toEqual(expectedJson);
 })
