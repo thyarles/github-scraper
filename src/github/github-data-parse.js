@@ -1,4 +1,4 @@
-class githubData {
+class GithubDataParser {
   getPullRequestParsedData(pullRequestData, changedFilesData) {
     return {
       owner: pullRequestData.pull_request.head.repo.owner.login,
@@ -19,4 +19,4 @@ class githubData {
   }
 }
 
-module.exports = githubData;
+module.exports = GithubDataParser;

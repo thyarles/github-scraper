@@ -1,4 +1,4 @@
-class awsData {
+class AwsFileUpload {
   s3Upload(s3, data, fileName, projectName) {
     let params = {
       Bucket: this.getBucketName(),
@@ -26,4 +26,4 @@ class awsData {
   }
 }
 
-module.exports = awsData;
+module.exports = AwsFileUpload;

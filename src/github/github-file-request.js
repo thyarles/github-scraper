@@ -1,4 +1,4 @@
-class getGithubData {
+class GithubFileRequest {
   getPullRequestFiles(octokit, owner, repo, number) {
     return octokit.pullRequests.getFiles({
       owner,
@@ -8,4 +8,4 @@ class getGithubData {
   }
 }
 
-module.exports = getGithubData;
+module.exports = GithubFileRequest;

@@ -1,19 +1,19 @@
 const path = require('path');
 
-const githubFile = require(path.resolve(__dirname, '../github/github-data.js'));
-const getGithuFilesDataFile = require(path.resolve(__dirname, '../github/get-github_data.js'));
-const githubAuthenticationFile = require(path.resolve(__dirname, '../github/github-authentication.js'));
-const awsFile = require(path.resolve(__dirname, '../aws/aws-data.js'));
-const awsAuthenticationFile = require(path.resolve(__dirname, '../aws/aws-authentication.js'));
+const awsCredentialsFile = require(path.resolve(__dirname, '../aws/aws-credentials.js'));
+const awsFileUploadFile = require(path.resolve(__dirname, '../aws/aws-file-upload.js'));
+const githubCredentialsFile = require(path.resolve(__dirname, '../github/github-credentials.js'));
+const githubFileRequestFile = require(path.resolve(__dirname, '../github/github-file-request.js'));
+const githubDataParserFile = require(path.resolve(__dirname, '../github/github-data-parse.js'));
 
-const githubDataParser = new githubFile();
-const awsData = new awsFile();
-const getGithuFilesData = new getGithuFilesDataFile();
-const githubAuthentication = new githubAuthenticationFile();
-const awsAuthentication = new awsAuthenticationFile();
+const AwsCredentials = new awsCredentialsFile();
+const AwsFileUpload = new awsFileUploadFile();
+const GithubCredentials = new githubCredentialsFile();
+const GithubDataParser = new githubDataParserFile();
+const GithubFileRequest = new githubFileRequestFile();
 
-const octokit = githubAuthentication.authenticate();
-const aws = awsAuthentication.authenticate();
+const octokit = GithubCredentials.getCredentials();
+const aws = AwsCredentials.getCredentials();
 
 const s3 = new aws.S3();
 
@@ -25,11 +25,11 @@ module.exports.upload = async (event) => {
   let owner = res.pull_request.head.repo.owner.login;
   let repo = res.repository.name;
   let number = res.number;
-  let pullRequestFilesData = await getGithuFilesData.getPullRequestFiles(octokit, owner, repo, number);
-  let githubJson = await githubDataParser.getPullRequestParsedData(res, pullRequestFilesData);
+  let pullRequestFilesData = await GithubFileRequest.getPullRequestFiles(octokit, owner, repo, number);
+  let githubJson = await GithubDataParser.getPullRequestParsedData(res, pullRequestFilesData);
 
   if (action === 'closed' && merged === true) {
-    let request = await awsData.s3Upload(s3, githubJson, number, repo);
+    let request = await AwsFileUpload.s3Upload(s3, githubJson, number, repo);
 
     if (request) {
       return {
