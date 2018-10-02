@@ -1,17 +1,13 @@
-const log = require('lambda-log');
+const octokit = require('@octokit/rest')();
 
 class githubAuthentication {
-  authenticate(octokit) {
-    try {
-      octokit.authenticate({
-        type: 'token',
-        token: process.env.GIT_API_KEY
-      });
+  authenticate() {
+    octokit.authenticate({
+      type: 'token',
+      token: process.env.GIT_API_KEY
+    });
 
-      log.info('Autenticação do Github ocorreu com sucesso');
-    } catch (error) {
-      log.error(`Autenticação do Github ocorreu sem sucesso, erro: ${error}`);
-    }
+    return octokit;
   }
 }
 

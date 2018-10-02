@@ -3,6 +3,16 @@ service: github-scraper
 plugins:
   - serverless-dotenv-plugin
 
+package:
+  exclude:
+    .git/**
+    spec/**
+    .eslintrc.json
+    .gitignore
+    package-lock.json
+    package.json
+    README.md
+
 provider:
   name: aws
   runtime: nodejs8.10
@@ -10,6 +20,8 @@ provider:
 functions:
   upload:
     handler: src/handlers/upload.upload
+    name: ${self:provider.stage}-upload
+    description: Parse github webhook data and save it on s3
     events:
       - http:
           path: /upload
