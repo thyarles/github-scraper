@@ -1,4 +1,4 @@
-aws = require('aws-sdk');
+const aws = require('aws-sdk');
 
 class AwsCredentials {
   constructor() {
