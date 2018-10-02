@@ -4,7 +4,7 @@ const awsCredentialsFile = require(path.resolve(__dirname, '../aws/aws-credentia
 const awsFileUploadFile = require(path.resolve(__dirname, '../aws/aws-file-upload.js'));
 const githubCredentialsFile = require(path.resolve(__dirname, '../github/github-credentials.js'));
 const githubFileRequestFile = require(path.resolve(__dirname, '../github/github-file-request.js'));
-const githubDataParserFile = require(path.resolve(__dirname, '../github/github-data-parse.js'));
+const githubDataParserFile = require(path.resolve(__dirname, '../github/github-data-parser.js'));
 
 const AwsCredentials = new awsCredentialsFile();
 const AwsFileUpload = new awsFileUploadFile();
