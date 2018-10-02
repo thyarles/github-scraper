@@ -1,7 +1,7 @@
 class AwsFileUpload {
   s3Upload(s3, data, fileName, projectName) {
     let params = {
-      Bucket: this.getBucketName(),
+      Bucket: process.env.S3_BUCKET_NAME,
       Body : JSON.stringify(data),
       Key : this.getFilePath(fileName, projectName)
     };
@@ -17,12 +17,8 @@ class AwsFileUpload {
     });
   }
 
-  getBucketName() {
-    return 'github-scraper';
-  }
-
   getFilePath(fileName, projectName) {
-    return `pull_requests/${fileName} - ${projectName}.json`;
+    return `${process.env.S3_BUCKET_FOLDER}/${fileName} - ${projectName}.json`;
   }
 }
 
