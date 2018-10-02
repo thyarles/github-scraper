@@ -29,16 +29,8 @@ module.exports.upload = async (event) => {
   let githubJson = await GithubDataParser.getPullRequestParsedData(parsedEvent, pullRequestFilesData);
 
   if (GithubDataParser.isMerge(action, merged)) {
-    AwsFileUpload.s3Upload(s3, githubJson, number, repo)
-      .then(() => {
-        return {
-          statusCode: 200
-        };
-      })
-      .catch(() => {
-        return {
-          statusCode: 400
-        };
-      });
+    return AwsFileUpload.s3Upload(s3, githubJson, number, repo)
+      .then(() => { return { 'statusCode': 200 }; })
+      .catch(() => { return { 'statusCode': 400 }; });
   }
 };
