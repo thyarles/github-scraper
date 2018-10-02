@@ -1,10 +1,10 @@
 const path = require('path');
 
-const githubFile = require(path.resolve(__dirname, '../github/github_data.js'));
-const getGithuFilesDataFile = require(path.resolve(__dirname, '../github/get_github_data.js'));
-const githubAuthenticationFile = require(path.resolve(__dirname, '../github/github_authentication.js'));
-const awsFile = require(path.resolve(__dirname, '../aws/aws_data.js'));
-const awsAuthenticationFile = require(path.resolve(__dirname, '../aws/aws_authentication.js'));
+const githubFile = require(path.resolve(__dirname, '../github/github-data.js'));
+const getGithuFilesDataFile = require(path.resolve(__dirname, '../github/get-github_data.js'));
+const githubAuthenticationFile = require(path.resolve(__dirname, '../github/github-authentication.js'));
+const awsFile = require(path.resolve(__dirname, '../aws/aws-data.js'));
+const awsAuthenticationFile = require(path.resolve(__dirname, '../aws/aws-authentication.js'));
 
 const githubDataParser = new githubFile();
 const awsData = new awsFile();
