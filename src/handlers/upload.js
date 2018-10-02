@@ -18,27 +18,27 @@ const aws = AwsCredentials.getCredentials();
 const s3 = new aws.S3();
 
 module.exports.upload = async (event) => {
-  let res = JSON.parse(event.body.payload);
+  let parsedEvent = JSON.parse(event.body.payload);
 
-  let action = res.action;
-  let merged = res.pull_request.merged;
-  let owner = res.pull_request.head.repo.owner.login;
-  let repo = res.repository.name;
-  let number = res.number;
+  let action = parsedEvent.action;
+  let merged = parsedEvent.pull_request.merged;
+  let owner = parsedEvent.pull_request.head.repo.owner.login;
+  let repo = parsedEvent.repository.name;
+  let number = parsedEvent.number;
   let pullRequestFilesData = await GithubFileRequest.getPullRequestFiles(octokit, owner, repo, number);
-  let githubJson = await GithubDataParser.getPullRequestParsedData(res, pullRequestFilesData);
+  let githubJson = await GithubDataParser.getPullRequestParsedData(parsedEvent, pullRequestFilesData);
 
-  if (action === 'closed' && merged === true) {
-    let request = await AwsFileUpload.s3Upload(s3, githubJson, number, repo);
-
-    if (request) {
-      return {
-        statusCode: 200
-      };
-    } else {
-      return {
-        statusCode: 400
-      };
-    }
+  if (GithubDataParser.isMerge(action, merged)) {
+    AwsFileUpload.s3Upload(s3, githubJson, number, repo)
+      .then(() => {
+        return {
+          statusCode: 200
+        };
+      })
+      .catch(() => {
+        return {
+          statusCode: 400
+        };
+      });
   }
 };

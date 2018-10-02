@@ -14,6 +14,10 @@ class GithubDataParser {
     };
   }
 
+  isMerge(action, merged) {
+    return action === 'closed' && merged === true;
+  }
+
   parseChangedFiles(fileResult) {
     return fileResult.data.map(changedFile => changedFile.filename);
   }
