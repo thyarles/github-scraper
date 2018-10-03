@@ -15,6 +15,8 @@ Scraper do github que adquiri dados de pull requests através de um webhook e ar
     * Adicione as seguintes variáveis de ambiente:
         * `GIT_API_KEY`: Contém a chave de autenticação do github, pode ser obitda no [link](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
         * `S3_ACCESS_KEY_ID`e `S3_SECRET_ACCESS_KEY`: São as chaves de autenticaçao da AWS, podem ser obtidas através do [link](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/)
+        * `S3_BUCKET_NAME`: É o nome do bucket criado no [S3](https://console.aws.amazon.com/s3/home?region=us-east-1)
+        * `S3_BUCKET_FOLDER`: É o nome da pasta criada dentro do bucket
 
 ## Deploy
 
