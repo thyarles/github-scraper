@@ -18,7 +18,7 @@ const s3 = new aws.S3();
 module.exports.upload = async (event) => {
   const parsedEvent = JSON.parse(event.body.payload);
 
-  const { pull_request } = parsedEvent
+  const { pull_request } = parsedEvent;
 
   const action = parsedEvent.action;
   const merged = pull_request.merged;
