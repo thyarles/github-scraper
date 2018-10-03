@@ -1,15 +1,17 @@
 class GithubDataParser {
   getPullRequestParsedData(pullRequestData, changedFilesData) {
+    const { pull_request } = pullRequestData;
+    
     return {
-      owner: pullRequestData.pull_request.head.repo.owner.login,
+      owner: pull_request.head.repo.owner.login,
       repo: pullRequestData.repository.name,
-      number: pullRequestData.pull_request.number,
-      title: pullRequestData.pull_request.title,
-      user: pullRequestData.pull_request.user.login,
-      created_at: pullRequestData.pull_request.created_at,
-      merged_at: pullRequestData.pull_request.merged_at,
-      reviewers: pullRequestData.pull_request.requested_reviewers,
-      labels: pullRequestData.pull_request.labels,
+      number: pull_request.number,
+      title: pull_request.title,
+      user: pull_request.user.login,
+      created_at: pull_request.created_at,
+      merged_at: pull_request.merged_at,
+      reviewers: pull_request.requested_reviewers,
+      labels: pull_request.labels,
       changed_files: JSON.stringify({ 'files': this._parseChangedFiles(changedFilesData) })
     };
   }

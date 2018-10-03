@@ -18,9 +18,11 @@ const s3 = new aws.S3();
 module.exports.upload = async (event) => {
   let parsedEvent = JSON.parse(event.body.payload);
 
+  const { pull_request } = parsedEvent
+
   let action = parsedEvent.action;
-  let merged = parsedEvent.pull_request.merged;
-  let owner = parsedEvent.pull_request.head.repo.owner.login;
+  let merged = pull_request.merged;
+  let owner = pull_request.head.repo.owner.login;
   let repo = parsedEvent.repository.name;
   let number = parsedEvent.number;
   let pullRequestFilesData = await GithubFileRequest.getPullRequestFiles(octokit, owner, repo, number);
