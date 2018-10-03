@@ -1,13 +1,12 @@
 const fs = require('fs');
-const path = require('path');
 
-const githubPullRequest = fs.readFileSync(path.resolve(__dirname, '../__mocks__/github_pull_request_data.json'), 'utf8');
-const githubPullRequestFiles = fs.readFileSync(path.resolve(__dirname, '../__mocks__/github_pull_request_files_data.json'), 'utf8');
+const githubPullRequest = fs.readFileSync(__dirname + '/../__mocks__/github_pull_request_data.json', 'utf8');
+const githubPullRequestFiles = fs.readFileSync(__dirname + '/../__mocks__/github_pull_request_files_data.json', 'utf8');
 
 const githubPullRequestJson = JSON.parse(githubPullRequest);
 const githubPullRequestFilesJson = JSON.parse(githubPullRequestFiles);
 
-const githubDataParserFile = require(path.resolve(__dirname, '../../src/github/github-data-parser.js'));
+const githubDataParserFile = require(__dirname + '/../../src/github/github-data-parser.js');
 
 const GithubDataParser = new githubDataParserFile();
 
