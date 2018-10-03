@@ -32,6 +32,32 @@ Para ser possível fazer o deploy da aplicação é necessário:
   * ```serverless deploy -f < FUNCTION_NAME >```
   * Substitua `FUNCTION_NAME` pelo nome da função que deve ser deployada
 
+## Configurando o webhook
+
+Para que o webhook funcione corretamente é necessário seguir os seguintes passos:
+
+1. Entre no seu projeto no github
+
+2. Entre na aba `Settings` do menu localizado ebtre o nome do projeto e a descrição do projeto
+
+3. Entre na aba `Webhooks` localizada no menu lateral a página
+
+4. Clique no botão `Add webhook` no canto direito da página
+
+5. Adicione a url obtida após o deploy no campo `Payload URL`
+
+6. Troque o `Content type` para `application/json`
+
+7. Selecione `Let me select individual events` e marque somente a opção `Pull requests`
+
+8. Tenha certeza que a opção `Active` está marcada
+
+9. Clique no botão `Update webhook`
+
+## Rotas
+
+O projeto possui somente uma rota que é destinada à `POST`. Essa URL será usada somente para o webhook do github fazer posts toda vez que um pull request for modificado ou criado.
+
 ## Testes
 
   Os testes unitários da aplicação foram escritos usando o framework [jest](https://jestjs.io/)
@@ -45,4 +71,3 @@ Para ser possível fazer o deploy da aplicação é necessário:
 
   Para rodar o lint:
   * ```npm run lint```
-  
