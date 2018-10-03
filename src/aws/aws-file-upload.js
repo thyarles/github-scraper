@@ -1,6 +1,6 @@
 class AwsFileUpload {
   s3Upload(s3, data, fileName, projectName) {
-    let params = {
+    const params = {
       Bucket: process.env.S3_BUCKET_NAME,
       Body : JSON.stringify(data),
       Key : this._getFilePath(fileName, projectName)

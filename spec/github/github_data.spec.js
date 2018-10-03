@@ -11,7 +11,7 @@ const githubDataParserFile = require(__dirname + '/../../src/github/github-data-
 const GithubDataParser = new githubDataParserFile();
 
 test('Verify if the github files are correctly treated', () => {
-  let expectedJson = {
+  const expectedJson = {
     "owner": "augusto-queirantes",
     "repo": "github-scraper",
     "number": 1,
