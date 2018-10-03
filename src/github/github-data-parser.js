@@ -10,7 +10,7 @@ class GithubDataParser {
       merged_at: pullRequestData.pull_request.merged_at,
       reviewers: pullRequestData.pull_request.requested_reviewers,
       labels: pullRequestData.pull_request.labels,
-      changed_files: JSON.stringify({ 'files': this.parseChangedFiles(changedFilesData) })
+      changed_files: JSON.stringify({ 'files': this._parseChangedFiles(changedFilesData) })
     };
   }
 
@@ -18,7 +18,7 @@ class GithubDataParser {
     return action === 'closed' && merged === true;
   }
 
-  parseChangedFiles(fileResult) {
+  _parseChangedFiles(fileResult) {
     return fileResult.data.map(changedFile => changedFile.filename);
   }
 }

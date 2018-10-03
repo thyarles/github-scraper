@@ -3,7 +3,7 @@ class AwsFileUpload {
     let params = {
       Bucket: process.env.S3_BUCKET_NAME,
       Body : JSON.stringify(data),
-      Key : this.getFilePath(fileName, projectName)
+      Key : this._getFilePath(fileName, projectName)
     };
 
     return new Promise(function(resolve, reject){
@@ -17,7 +17,7 @@ class AwsFileUpload {
     });
   }
 
-  getFilePath(fileName, projectName) {
+  _getFilePath(fileName, projectName) {
     return `${process.env.S3_BUCKET_FOLDER}/${fileName} - ${projectName}.json`;
   }
 }
