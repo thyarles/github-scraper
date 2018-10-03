@@ -22,7 +22,6 @@
     "@octokit/rest": "^15.11.1",
     "aws-sdk": "^2.315.0",
     "fs": "0.0.1-security",
-    "node-fetch": "^2.2.0",
     "serverless-dotenv-plugin": "^1.2.0"
   },
   "devDependencies": {
