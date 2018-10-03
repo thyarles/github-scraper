@@ -69,7 +69,7 @@ O projeto possui somente uma rota que é destinada à `POST`. Essa URL será usa
 
 ## Style guide
 
-  O style guide usado no projeto é [airbnb](https://github.com/airbnb/javascript. O lint do projeto é verificado através do [eslint](https://eslint.org/)
+  O style guide usado no projeto é [airbnb](https://github.com/airbnb/javascript). O lint do projeto é verificado através do [eslint](https://eslint.org/)
 
   Para rodar o lint:
   * ```npm run lint```
