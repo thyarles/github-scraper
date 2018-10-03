@@ -22,16 +22,7 @@ test('Verify if the github files are correctly treated', () => {
     "merged_at": "2018-09-24T18:47:27Z",
     "reviewers": [],
     "labels": [],
-    "changed_files": [
-      ".eslintrc.json",
-      "package-lock.json",
-      "package.json",
-      "src/aws/aws_authentication.js",
-      "src/aws/aws_data.js",
-      "src/github/github_authentication.js",
-      "src/github/github_data.js",
-      "src/handlers/upload.js"
-    ]
+    "changed_files": "{\"files\":[\".eslintrc.json\",\"package-lock.json\",\"package.json\",\"src/aws/aws_authentication.js\",\"src/aws/aws_data.js\",\"src/github/github_authentication.js\",\"src/github/github_data.js\",\"src/handlers/upload.js\"]}"
   };
 
   expect(GithubDataParser).toBeDefined();
