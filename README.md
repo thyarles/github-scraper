@@ -1,6 +1,6 @@
 # Github serverless scraper
 
-Scraper do github que adquiri dados de pull requests através de um webhook e armazena-os em jsons arquivados dentro do s3 a fim de possibilitar estudos em cima dos dados feitos através de queries rodadas no athena
+Scraper do github que trata e armazena dados provenientes de um webhook. Esses dados são armazenados no (S3)[https://aws.amazon.com/pt/s3/] sempre que um pull request é mergeado. É possível fazer uma integração com o (Athena)[https://aws.amazon.com/pt/athena/] para consultar dados já armazenados.
 
 ## Instalação
 
@@ -40,7 +40,7 @@ Para que o webhook funcione corretamente é necessário seguir os seguintes pass
 
 1. Entre no seu projeto no github
 
-2. Entre na aba `Settings` do menu localizado ebtre o nome do projeto e a descrição do projeto
+2. Entre na aba `Settings` do menu localizado entre o nome do projeto e a descrição do projeto
 
 3. Entre na aba `Webhooks` localizada no menu lateral a página
 
