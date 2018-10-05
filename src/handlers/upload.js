@@ -16,17 +16,14 @@ const aws = AwsCredentials.getCredentials();
 const s3 = new aws.S3();
 
 module.exports.upload = async (event) => {
-  const parsedEvent = JSON.parse(event.body.payload);
+  const { body, body: { pull_request, action, number, repository } } = event
 
-  const { pull_request } = parsedEvent;
-
-  const action = parsedEvent.action;
   const merged = pull_request.merged;
   const owner = pull_request.head.repo.owner.login;
-  const repo = parsedEvent.repository.name;
-  const number = parsedEvent.number;
+  const repo = repository.name;
+
   const pullRequestFilesData = await GithubFileRequest.getPullRequestFiles(octokit, owner, repo, number);
-  const githubJson = await GithubDataParser.getPullRequestParsedData(parsedEvent, pullRequestFilesData);
+  const githubJson = await GithubDataParser.getPullRequestParsedData(body, pullRequestFilesData);
 
   if (GithubDataParser.isMerge(action, merged)) {
     return AwsFileUpload.s3Upload(s3, githubJson, number, repo)
