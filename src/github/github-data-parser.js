@@ -10,8 +10,8 @@ class GithubDataParser {
       user: pull_request.user.login,
       created_at: pull_request.created_at,
       merged_at: pull_request.merged_at,
-      reviewers: pull_request.requested_reviewers,
-      labels: pull_request.labels,
+      reviewers: JSON.stringify({ reviewers: pull_request.requested_reviewers }),
+      labels: JSON.stringify({ labels: pull_request.labels }),
       changed_files: JSON.stringify({ 'files': this._parseChangedFiles(changedFilesData) })
     };
   }
