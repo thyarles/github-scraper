@@ -1,22 +1,27 @@
 class GithubDataParser {
-  getPullRequestParsedData(pullRequestData, changedFilesData) {
-    const { pull_request } = pullRequestData;
-    
+  getPullRequestParsedData(webhookData, changedFilesData) {
+    console.log(JSON.stringify(webhookData));
     return {
-      owner: pull_request.head.repo.owner.login,
-      repo: pullRequestData.repository.name,
-      number: pull_request.number,
-      title: pull_request.title,
-      user: pull_request.user.login,
-      created_at: pull_request.created_at,
-      merged_at: pull_request.merged_at,
-      reviewers: JSON.stringify({ reviewers: pull_request.requested_reviewers }),
-      labels: JSON.stringify({ labels: pull_request.labels }),
-      changed_files: JSON.stringify({ 'files': this._parseChangedFiles(changedFilesData) })
+      data: {
+        owner: webhookData.head.repo.owner.login,
+        repo: webhookData.head.repo.name,
+        number: webhookData.number,
+        title: webhookData.title,
+        user: webhookData.user.login,
+        created_at: webhookData.created_at,
+        merged_at: webhookData.merged_at,
+        reviewers: JSON.stringify({ reviewers: webhookData.requested_reviewers }),
+        labels: JSON.stringify({ labels: webhookData.labels }),
+        changed_files: JSON.stringify({ 'files': this._parseChangedFiles(changedFilesData) })
+      },
+      details: {
+        state: webhookData.state,
+        merged: webhookData.merged
+      }
     };
   }
 
-  isMerge(action, merged) {
+  isMerged(action, merged) {
     return action === 'closed' && merged === true;
   }
 
