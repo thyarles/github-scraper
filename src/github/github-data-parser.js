@@ -1,6 +1,5 @@
 class GithubDataParser {
   getPullRequestParsedData(webhookData, changedFilesData) {
-    console.log(JSON.stringify(webhookData));
     return {
       data: {
         owner: webhookData.head.repo.owner.login,
