@@ -12,16 +12,22 @@ const GithubDataParser = new githubDataParserFile();
 
 test('Verify if the github files are correctly treated', () => {
   const expectedJson = {
-    "owner": "augusto-queirantes",
-    "repo": "github-scraper",
-    "number": 1,
-    "title": "Add es6, lint and application logs",
-    "user": "augusto-queirantes",
-    "created_at": "2018-09-24T18:46:43Z",
-    "merged_at": "2018-09-24T18:47:27Z",
-    "reviewers": [],
-    "labels": [],
-    "changed_files": "{\"files\":[\".eslintrc.json\",\"package-lock.json\",\"package.json\",\"src/aws/aws_authentication.js\",\"src/aws/aws_data.js\",\"src/github/github_authentication.js\",\"src/github/github_data.js\",\"src/handlers/upload.js\"]}"
+    "data": {
+      "changed_files": "{\"files\":[\"src/github/github-data-parser.js\"]}",
+      "created_at": "2018-10-04T22:36:05Z",
+      "labels": "{\"labels\":[]}",
+      "merged_at": "2018-10-04T22:39:13Z",
+      "number": 14,
+      "owner": "quero-edu",
+      "repo": "github-scraper",
+      "reviewers": "{\"reviewers\":[]}",
+      "title": "Change variabled to json",
+      "user": "augusto-queirantes"
+    },
+    "details": {
+      "merged": true,
+      "state": "closed"
+    }
   };
 
   expect(GithubDataParser).toBeDefined();
