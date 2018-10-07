@@ -18,13 +18,23 @@ provider:
   runtime: nodejs8.10
 
 functions:
-  upload:
-    handler: src/handlers/upload.upload
-    name: ${self:provider.stage}-upload
-    description: Parse github webhook data and save it on s3
+  upload-webhook:
+    handler: src/handlers/upload-webhook.uploadWebhook
+    name: ${self:provider.stage}-upload-webhook
+    description: Parse github webhook data and save it on S3
     events:
       - http:
-          path: /upload
+          path: /upload-webhook
           method: post
+          cors: true
+          integration: lambda
+  upload-pull-request:
+    handler: src/handlers/upload-pull-request.uploadPullRequest
+    name: ${self:provider.stage}-upload-pull-request
+    description: Parse github pull request data and save it on S3
+    events:
+      - http:
+          path: /upload-pull-request/{owner}/{repo}/{number}
+          method: get
           cors: true
           integration: lambda
