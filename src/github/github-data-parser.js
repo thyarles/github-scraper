@@ -1,5 +1,5 @@
 class GithubDataParser {
-  getPullRequestParsedData(webhookData, changedFilesData) {
+  getPullRequestParsedData(webhookData, changedFilesData, reviewersData) {
     return {
       data: {
         owner: webhookData.head.repo.owner.login,
@@ -9,8 +9,8 @@ class GithubDataParser {
         user: webhookData.user.login,
         created_at: webhookData.created_at,
         merged_at: webhookData.merged_at,
-        reviewers: JSON.stringify({ reviewers: webhookData.requested_reviewers }),
-        labels: JSON.stringify({ labels: webhookData.labels }),
+        reviewers: JSON.stringify({ reviewers: this._parseReviewers(reviewersData) }),
+        labels: JSON.stringify({ labels: this._parseLabels(webhookData.labels) }),
         changed_files: JSON.stringify({ 'files': this._parseChangedFiles(changedFilesData) })
       },
       details: {
@@ -26,6 +26,22 @@ class GithubDataParser {
 
   _parseChangedFiles(fileResult) {
     return fileResult.data.map(changedFile => changedFile.filename);
+  }
+
+  _parseReviewers(reviewersData) {
+    let reviewers = [];
+
+    reviewersData.data.filter((reviewerData) => {
+      if (!(reviewers.includes(reviewerData.user.login))) {
+        reviewers.push(reviewerData.user.login);
+      }
+    });
+
+    return reviewers;
+  }
+
+  _parseLabels(labelsData) {
+    return labelsData.map(label => label.name);
   }
 }
 

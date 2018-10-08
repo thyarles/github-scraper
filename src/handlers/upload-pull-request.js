@@ -18,9 +18,10 @@ const s3 = new aws.S3();
 module.exports.uploadPullRequest = async (event) => {
   const { path: { owner, repo, number } } = event;
 
+  const pullRequestReviewers = await octokit.pullRequests.getReviews({owner, repo, number});
   const pullRequestDataResult = await octokit.pullRequests.get({ owner, repo, number });
   const pullRequestFilesData = await GithubFileRequest.getPullRequestFiles(octokit, owner, repo, number);
-  const githubJson = await GithubDataParser.getPullRequestParsedData(pullRequestDataResult.data, pullRequestFilesData);
+  const githubJson = await GithubDataParser.getPullRequestParsedData(pullRequestDataResult.data, pullRequestFilesData, pullRequestReviewers);
 
   const { data, details: { state, merged } } = githubJson;
 
