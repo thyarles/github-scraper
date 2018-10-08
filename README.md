@@ -118,6 +118,20 @@ WITH SERDEPROPERTIES (
 TBLPROPERTIES ('has_encrypted_data'='false');
 ```
 
+#### Inserção
+
+Para adicionar dados no S3 basta fazer as seguintes alterações no arquivo `scripts/add-single-pr.js`
+
+1. Altere `baseUrl` com a url obtida após o deploy, basta lembrar que precisa ter a terminação `/upload-pull-request` e não possuir `/` no final
+
+2. Altera a variável `owner` com o nome do usuário que é dono do repositório
+
+3. Altere a variável `repo` com o nome do repositório
+
+4. Altere a variável `maxNumber` com o número do último pull request que deseja-se obter os dados
+
+Após fazer essas alterações basta rodar o script usando `node scripts/add-single-pr.js` dentro da pasta raiz do projeto
+
 ## Desenvolvimento
 
 #### Testes
