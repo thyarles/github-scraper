@@ -1,44 +1,64 @@
 # Github serverless scraper
 
-Scraper do github que trata e armazena dados provenientes de um webhook. Esses dados são armazenados no (S3)[https://aws.amazon.com/pt/s3/] sempre que um pull request é mergeado. É possível fazer uma integração com o (Athena)[https://aws.amazon.com/pt/athena/] para consultar dados já armazenados.
+Scraper do github que trata e armazena dados provenientes de pull requests feitos no github. Esses dados são armazenados no [S3](https://aws.amazon.com/pt/s3/) sempre que um pull request é mergeado. É possível fazer uma integração com o [Athena](https://aws.amazon.com/pt/athena/) para consultar dados já armazenados.
 
-## Instalação
+## Setup
 
-1. Instale o npm:
-    * ```sudo apt install npm```
-2. Instale as dependências:
+#### Pré-instalação
+
+É necessário possuir [node](https://nodejs.org/en/) na versão 8.10 e [npm](https://www.npmjs.com/) previamente instalados
+
+#### Instalação
+
+1. Instale as dependências:
     * ```npm install```
-3. Instale o framework serverless:
+2. Instale o framework serverless:
     * ```sudo npm install -g serverless```
-4. Criar variáveis de ambiente dentro do projeto:
+3. Criar variáveis de ambiente dentro do projeto:
     * ```touch .env```
     * Adicione as seguintes variáveis de ambiente:
-        * `GIT_API_KEY`: Contém a chave de autenticação do github, pode ser obitda no [link](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-        * `S3_ACCESS_KEY_ID`e `S3_SECRET_ACCESS_KEY`: São as chaves de autenticaçao da AWS, podem ser obtidas através do [link](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/)
-        * `S3_BUCKET_NAME`: É o nome do bucket criado no [S3](https://console.aws.amazon.com/s3/home?region=us-east-1)
-        * `S3_BUCKET_FOLDER`: É o nome da pasta criada dentro do bucket
+      * `GIT_API_KEY`: Contém a chave de autenticação do github, pode ser obitda no [link](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
+      * `S3_ACCESS_KEY_ID`e `S3_SECRET_ACCESS_KEY`: São as chaves de autenticaçao da AWS, podem ser obtidas através do [link](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/)
+      * `S3_BUCKET_NAME`: É o nome do bucket criado no [S3](https://console.aws.amazon.com/s3/home?region=us-east-1)
+      * `S3_BUCKET_FOLDER`: É o nome da pasta criada dentro do bucket
+    * Exemplo de arquivo `.env`:
+      ```
+      GIT_API_KEY=bla
+      S3_ACCESS_KEY_ID=ble
+      S3_SECRET_ACCESS_KEY=bli
+      S3_BUCKET_NAME=blo
+      S3_BUCKET_FOLDER=blu
+      ```
 
-## Deploy
+#### Deploy
 
 Para ser possível fazer o deploy da aplicação é necessário:
 
-1. Configurar o serverless na linha de comando:
-    * ```serverless config credentials --provider aws --key < ACCESS_KEY_ID > --secret < SECRET_ACCESS_KEY >```
+1. Configure o serverless na linha de comando:
+    * ```serverless config credentials --provider aws --key ACCESS_KEY_ID --secret SECRET_ACCESS_KEY```
     * Substitua os campos `ACCESS_KEY_ID` e `SECRET_ACCESS_KEY` pelas credenciais já obtidas da AWS
 
-* Deploy de todo o projeto:
+* Para executar o deploy de todo o projeto:
 
   * ```serverless deploy```
 
-* Deploy de funções específicas:
-  * ```serverless deploy -f < FUNCTION_NAME >```
+* Para executar o deploy de funções específicas:
+  * ```serverless deploy -f FUNCTION_NAME```
   * Substitua `FUNCTION_NAME` pelo nome da função que deve ser deployada
 
-## Configurando o webhook
+#### Rotas
+
+1. `/upload-webhook` rota exclusivamente para ser usada pelo webhook do github via *post* para fazer a asserção de arquivos no [S3](https://console.aws.amazon.com/s3/home?region=us-east-1) sempre que um pull request for mergeado
+
+2. `/upload-pull-request/{owner}/{repo}/{number}` deve ser feito um *get* nessa rota, substituindo as variáveis `{owner}` pelo dono do repositório, `{repo}` pelo nome do repositório e `{number}` pelo número do pull request, sempre que quiser adicionar um pull request *já mergeado* ao [S3](https://console.aws.amazon.com/s3/home?region=us-east-1)
+
+## integração
+
+#### Configurando o webhook
 
 Para que o webhook funcione corretamente é necessário seguir os seguintes passos:
 
-1. Entre no seu projeto no github
+1. Entre no projeto no github
 
 2. Entre na aba `Settings` do menu localizado entre o nome do projeto e a descrição do projeto
 
@@ -56,18 +76,46 @@ Para que o webhook funcione corretamente é necessário seguir os seguintes pass
 
 9. Clique no botão `Update webhook`
 
-## Rotas
+#### Configurando o Athena
 
-O projeto possui somente uma rota que é destinada à `POST`. Essa URL será usada somente para o webhook do github fazer posts toda vez que um pull request for modificado ou criado.
+Para que o [athena](https://aws.amazon.com/pt/athena/) funcione corretamente é necessário que:
 
-## Testes
+1. Entre na [interface do athena](https://aws.amazon.com/pt/athena/)
+
+2. Certifique-se que está na opção `Query Editor` localizada no topo da página
+
+3. Rode a seguinte query para criar a tabela:
+
+```sql
+CREATE EXTERNAL TABLE IF NOT EXISTS sampledb.pull_requests (
+  `owner` string,
+  `repo` string,
+  `number` int,
+  `user` string,
+  `title` string,
+  `created_at` string,
+  `merged_at` string,
+  `reviewers` string,
+  `labels` string,
+  `changed_files` string
+)
+ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
+WITH SERDEPROPERTIES (
+  'serialization.format' = '1'
+) LOCATION 's3://github-scraper/pull_requests/'
+TBLPROPERTIES ('has_encrypted_data'='false');
+```
+
+## Desenvolvimento
+
+#### Testes
 
   Os testes unitários da aplicação foram escritos usando o framework [jest](https://jestjs.io/)
 
   Para rodar os testes:
   * ```npm run test```
 
-## Style guide
+#### Style guide
 
   O style guide usado no projeto é [airbnb](https://github.com/airbnb/javascript). O lint do projeto é verificado através do [eslint](https://eslint.org/)
 
