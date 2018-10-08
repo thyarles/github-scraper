@@ -21,8 +21,9 @@ module.exports.uploadWebhook = async (event) => {
   const owner = pull_request.head.repo.owner.login;
   const repo = repository.name;
 
+  const pullRequestReviewers = await octokit.pullRequests.getReviews({owner, repo, number});
   const pullRequestFilesData = await GithubFileRequest.getPullRequestFiles(octokit, owner, repo, number);
-  const githubJson = await GithubDataParser.getPullRequestParsedData(pull_request, pullRequestFilesData);
+  const githubJson = await GithubDataParser.getPullRequestParsedData(pull_request, pullRequestFilesData, pullRequestReviewers);
 
   const { data, details: { state, merged } } = githubJson;
 

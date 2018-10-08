@@ -2,9 +2,11 @@ const fs = require('fs');
 
 const githubPullRequest = fs.readFileSync(__dirname + '/../__mocks__/github_pull_request_data.json', 'utf8');
 const githubPullRequestFiles = fs.readFileSync(__dirname + '/../__mocks__/github_pull_request_files_data.json', 'utf8');
+const githubReviewersDataFile = fs.readFileSync(__dirname + '/../__mocks__/github_reviewers_data.json', 'utf8');
 
 const githubPullRequestJson = JSON.parse(githubPullRequest);
 const githubPullRequestFilesJson = JSON.parse(githubPullRequestFiles);
+const githubReviewersDataJson = JSON.parse(githubReviewersDataFile);
 
 const githubDataParserFile = require(__dirname + '/../../src/github/github-data-parser.js');
 
@@ -20,7 +22,7 @@ test('Verify if the github files are correctly treated', () => {
       "number": 14,
       "owner": "quero-edu",
       "repo": "github-scraper",
-      "reviewers": "{\"reviewers\":[]}",
+      "reviewers": "{\"reviewers\":[\"caiammm\",\"pufe\",\"Emerick94\"]}",
       "title": "Change variabled to json",
       "user": "augusto-queirantes"
     },
@@ -31,5 +33,5 @@ test('Verify if the github files are correctly treated', () => {
   };
 
   expect(GithubDataParser).toBeDefined();
-  expect(GithubDataParser.getPullRequestParsedData(githubPullRequestJson, githubPullRequestFilesJson)).toEqual(expectedJson);
+  expect(GithubDataParser.getPullRequestParsedData(githubPullRequestJson, githubPullRequestFilesJson, githubReviewersDataJson)).toEqual(expectedJson);
 })
