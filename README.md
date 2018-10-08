@@ -11,7 +11,7 @@ Scraper do github que trata e armazena dados provenientes de pull requests feito
   * [Webhook](#webhook)
   * [Athena](#athena)
 - [Desenvolvimento](#desenvolvimento)
-  * [Tests](#testes)
+  * [Testes](#testes)
   * [Lint](#lint)
 
 ## Setup
