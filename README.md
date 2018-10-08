@@ -10,6 +10,7 @@ Scraper do github que trata e armazena dados provenientes de pull requests feito
 - [Integração](#integração)
   * [Webhook](#webhook)
   * [Athena](#athena)
+  * [Inserção no banco de dados](#inserção)
 - [Desenvolvimento](#desenvolvimento)
   * [Testes](#testes)
   * [Lint](#lint)
@@ -64,7 +65,7 @@ Para ser possível fazer o deploy da aplicação é necessário:
 
 2. `/upload-pull-request/{owner}/{repo}/{number}` deve ser feito um *get* nessa rota, substituindo as variáveis `{owner}` pelo dono do repositório, `{repo}` pelo nome do repositório e `{number}` pelo número do pull request, sempre que quiser adicionar um pull request *já mergeado* ao [S3](https://console.aws.amazon.com/s3/home?region=us-east-1)
 
-## integração
+## Integração
 
 #### Webhook
 
