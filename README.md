@@ -2,6 +2,18 @@
 
 Scraper do github que trata e armazena dados provenientes de pull requests feitos no github. Esses dados são armazenados no [S3](https://aws.amazon.com/pt/s3/) sempre que um pull request é mergeado. É possível fazer uma integração com o [Athena](https://aws.amazon.com/pt/athena/) para consultar dados já armazenados.
 
+- [Setup](#setup)
+  * [Pré-instalação](#pré-instalação)
+  * [Instalação](#instalação)
+  * [Deploy](#deploy)
+  * [Rotas](#rotas)
+- [Integração](#integração)
+  * [Webhook](#webhook)
+  * [Athena](#athena)
+- [Desenvolvimento](#desenvolvimento)
+  * [Tests](#testes)
+  * [Lint](#lint)
+
 ## Setup
 
 #### Pré-instalação
@@ -54,7 +66,7 @@ Para ser possível fazer o deploy da aplicação é necessário:
 
 ## integração
 
-#### Configurando o webhook
+#### Webhook
 
 Para que o webhook funcione corretamente é necessário seguir os seguintes passos:
 
@@ -76,7 +88,7 @@ Para que o webhook funcione corretamente é necessário seguir os seguintes pass
 
 9. Clique no botão `Update webhook`
 
-#### Configurando o Athena
+#### Athena
 
 Para que o [athena](https://aws.amazon.com/pt/athena/) funcione corretamente é necessário que:
 
@@ -115,7 +127,7 @@ TBLPROPERTIES ('has_encrypted_data'='false');
   Para rodar os testes:
   * ```npm run test```
 
-#### Style guide
+#### Lint
 
   O style guide usado no projeto é [airbnb](https://github.com/airbnb/javascript). O lint do projeto é verificado através do [eslint](https://eslint.org/)
 
